@@ -1,131 +1,1003 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="PkLa_ViOo6FAHpvh8SacceMb95o9tePRdrqLNBz9X1M" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="PkLa_ViOo6FAHpvh8SacceMb95o9tePRdrqLNBz9X1M" />
+<meta name="robots" content="index, follow">
 
-  <!-- SEO -->
-  <title>MariaDB Tools – Query Optimization, Index Analyzer & Performance Tuning</title>
-  <meta name="description" content="Advanced MariaDB tools for query optimization, indexing, benchmarking, configuration tuning, and replication analysis. Improve database performance and efficiency.">
-  <meta name="keywords" content="
-    mariadb query optimizer tool,
-    mariadb index analyzer performance,
-    mariadb slow query fix tool,
-    mariadb benchmark performance test,
-    mariadb config tuning optimizer,
-    mariadb replication lag analyzer,
-    mariadb explain query tool online,
-    optimize mariadb database performance,
-    mariadb indexing best practices tool,
-    mariadb query execution plan analyzer
-  ">
-  <meta name="robots" content="index, follow">
+<title>MariaDB Performance Tuning Tools Comparison – Configuration Analyzer &amp; Monitoring Guide (2025)</title>
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="MariaDB Tools – Optimize Queries & Database Performance">
-  <meta property="og:description" content="Analyze queries, optimize indexes, benchmark performance, and fix replication issues in MariaDB.">
-  <meta property="og:type" content="website">
+<meta name="description" content="MariaDB performance monitoring and tuning tools comparison 2025. Free configuration analyzer: paste your my.cnf and get optimized innodb_buffer_pool_size, query_cache, max_connections values. Compare Percona PMM, MySQLTuner, SolarWinds, and more.">
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #020617;
-      color: #e2e8f0;
-      margin: 0;
-      padding: 20px;
-    }
-    h1, h2 {
-      color: #60a5fa;
-    }
-    a {
-      color: #22c55e;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-    .container {
-      max-width: 950px;
-      margin: auto;
-    }
-    .tool {
-      margin-bottom: 18px;
-      padding: 16px;
-      background: #0f172a;
-      border-radius: 10px;
-    }
-  </style>
+<meta name="keywords" content="mariadb performance monitoring and tuning tools comparison, mariadb performance tuning tool comparison, mariadb performance tuning tools comparison, mariadb analysis tool, mariadb monitoring tools, mariadb configuration tuning, mariadb innodb tuning, mariadb my.cnf optimizer, mariadb performance tools 2025">
+
+<link rel="canonical" href="https://franrivalbigprojects.github.io/mariadb-tools/">
+
+<meta property="og:title" content="MariaDB Performance Tuning Tools Comparison 2025 – Free Config Analyzer">
+<meta property="og:description" content="Compare best MariaDB performance monitoring and tuning tools. Free my.cnf analyzer with InnoDB buffer pool, connections, and query cache recommendations.">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #040810;
+  --surface: #060d1c;
+  --surface2: #0a1428;
+  --border: #0e1e38;
+  --border2: #142848;
+  --mdb: #60a5fa;
+  --mdb-dim: rgba(96,165,250,0.12);
+  --mdb-dim2: rgba(96,165,250,0.05);
+  --mdb-glow: rgba(96,165,250,0.18);
+  --green: #22c55e;
+  --green-dim: rgba(34,197,94,0.10);
+  --green-dim2: rgba(34,197,94,0.05);
+  --orange: #fb923c;
+  --orange-dim: rgba(251,146,60,0.08);
+  --yellow: #fbbf24;
+  --yellow-dim: rgba(251,191,36,0.08);
+  --red: #f87171;
+  --red-dim: rgba(248,113,113,0.08);
+  --text: #b0c8e8;
+  --text-muted: #3a5070;
+  --text-dim: #0f1838;
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Inter', sans-serif;
+  --r: 8px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 44px 44px;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+}
+
+header {
+  border-bottom: 1px solid var(--border2);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(4,8,16,0.97);
+  backdrop-filter: blur(12px);
+}
+
+.header-inner {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.logo-pill {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--mdb);
+  background: var(--mdb-dim2);
+  border: 1px solid rgba(96,165,250,0.3);
+  border-radius: 3px;
+  padding: 3px 9px;
+}
+
+.logo-text { font-family: var(--mono); font-size: 12px; color: var(--text-muted); }
+.logo-text strong { color: var(--mdb); font-weight: 500; }
+
+.wrapper {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero {
+  padding: 44px 0 24px;
+  border-bottom: 1px solid var(--border2);
+  margin-bottom: 22px;
+}
+
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mdb);
+  margin-bottom: 12px;
+  opacity: 0.8;
+}
+
+h1 {
+  font-size: clamp(22px, 3.2vw, 30px);
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 10px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+h1 em { font-style: normal; color: var(--mdb); }
+
+.hero-sub {
+  font-size: 15px;
+  color: var(--text-muted);
+  max-width: 640px;
+  line-height: 1.75;
+  margin-bottom: 14px;
+}
+
+.hero-sub strong { color: var(--text); }
+
+.pill-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.pill {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 3px 9px;
+  border-radius: 3px;
+  border: 1px solid;
+}
+.pill-m  { color: var(--mdb); background: var(--mdb-dim2); border-color: rgba(96,165,250,0.3); }
+.pill-dim { color: var(--text-muted); border-color: var(--border2); }
+
+/* TOOL */
+.tool-shell {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--r);
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+
+.tool-topbar {
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border2);
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.topbar-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.btn-sm {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid;
+  background: transparent;
+  transition: opacity 0.15s;
+}
+.btn-sm:hover { opacity: 0.75; }
+.btn-mdb  { color: var(--mdb); border-color: rgba(96,165,250,0.3); background: var(--mdb-dim2); }
+.btn-ghost { color: var(--text-muted); border-color: var(--border2); }
+
+.calc-body { padding: 16px 18px; }
+
+.field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.field { display: flex; flex-direction: column; gap: 5px; }
+
+.field-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.field-hint {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-dim);
+}
+
+.mdb-input, .mdb-select {
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  border-radius: 4px;
+  padding: 8px 10px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text);
+  width: 100%;
+  -webkit-appearance: none;
+  transition: border-color 0.2s;
+}
+
+.mdb-input:focus, .mdb-select:focus { outline: none; border-color: rgba(96,165,250,0.35); }
+.mdb-select option { background: #0a1428; }
+
+.cfg-textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.6;
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  border-radius: 4px;
+  color: var(--mdb);
+  resize: vertical;
+  margin-bottom: 8px;
+  transition: border-color 0.2s;
+}
+.cfg-textarea:focus { outline: none; border-color: rgba(96,165,250,0.35); }
+
+.btn-tune {
+  padding: 10px 26px;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--mdb);
+  color: #000;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0 0 14px var(--mdb-glow);
+  transition: opacity 0.15s;
+  margin-bottom: 14px;
+}
+.btn-tune:hover { opacity: 0.87; }
+
+/* RESULTS */
+.result-section { display: none; }
+.result-section.show { display: block; }
+
+.res-head {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--mdb);
+  opacity: 0.8;
+  margin: 14px 0 8px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--border2);
+}
+
+.rec-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.rec-card {
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  border-radius: var(--r);
+  padding: 12px;
+  font-family: var(--mono);
+  font-size: 11px;
+}
+
+.rc-param { color: var(--mdb); font-weight: 600; font-size: 12px; margin-bottom: 2px; }
+.rc-val   { color: var(--green); font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.rc-why   { color: var(--text-muted); font-size: 10px; line-height: 1.5; }
+
+.badge { font-family: var(--mono); font-size: 9px; padding: 1px 6px; border-radius: 2px; border: 1px solid; }
+.b-perf  { color: var(--green);  background: var(--green-dim2); border-color: rgba(34,197,94,0.2); }
+.b-safe  { color: var(--mdb);    background: var(--mdb-dim2);   border-color: rgba(96,165,250,0.2); }
+.b-warn  { color: var(--orange); background: var(--orange-dim); border-color: rgba(251,146,60,0.2); }
+
+.cnf-output {
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  border-left: 3px solid var(--mdb);
+  border-radius: 0 var(--r) var(--r) 0;
+  padding: 14px 16px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--mdb);
+  white-space: pre;
+  overflow-x: auto;
+  line-height: 1.7;
+  margin-bottom: 8px;
+}
+
+.copy-btn {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 6px 14px;
+  border-radius: 4px;
+  border: 1px solid rgba(34,197,94,0.25);
+  background: var(--green-dim2);
+  color: var(--green);
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.copy-btn:hover { opacity: 0.75; }
+
+/* TOOLS COMPARISON TABLE */
+.tools-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  border-radius: var(--r);
+  overflow: hidden;
+  border: 1px solid var(--border2);
+  margin-bottom: 14px;
+}
+
+.tools-table th, .tools-table td {
+  padding: 9px 12px;
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 11px;
+  border-bottom: 1px solid var(--border2);
+}
+
+.tools-table th {
+  background: var(--surface2);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+}
+
+.tools-table td { color: var(--text-muted); }
+.tools-table tr:last-child td { border-bottom: none; }
+.tools-table tr:hover td { background: rgba(96,165,250,0.02); }
+.td-tool { color: var(--mdb); font-weight: 600; white-space: nowrap; }
+
+.bb-free { color: var(--green);  background: var(--green-dim2); border-color: rgba(34,197,94,0.2); }
+.bb-paid { color: var(--orange); background: var(--orange-dim); border-color: rgba(251,146,60,0.2); }
+.bb-oss  { color: var(--mdb);    background: var(--mdb-dim2);   border-color: rgba(96,165,250,0.2); }
+
+/* SECTION */
+hr.divider { border: none; border-top: 1px solid var(--border2); margin: 50px 0; }
+.content-section { margin-bottom: 50px; }
+
+.sec-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.sec-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--mdb);
+  white-space: nowrap;
+  opacity: 0.7;
+}
+
+.sec-rule { flex: 1; height: 1px; background: var(--border2); }
+
+p { font-size: 14px; color: var(--text-muted); line-height: 1.8; margin-bottom: 10px; max-width: 820px; }
+p strong { color: var(--text); }
+
+code {
+  font-family: var(--mono);
+  font-size: 12px;
+  background: var(--surface2);
+  color: var(--mdb);
+  padding: 2px 7px;
+  border-radius: 3px;
+  border: 1px solid var(--border2);
+}
+
+.dense-block {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--r);
+  padding: 22px;
+  margin-top: 14px;
+}
+
+.dense-block p { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--border2); max-width: none; }
+.dense-block p:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+
+.faq-list { margin-top: 14px; border: 1px solid var(--border2); border-radius: var(--r); overflow: hidden; }
+.faq-item { border-bottom: 1px solid var(--border2); }
+.faq-item:last-child { border-bottom: none; }
+
+.faq-q {
+  width: 100%;
+  text-align: left;
+  background: var(--surface);
+  border: none;
+  padding: 13px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  font-family: var(--sans);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  transition: background 0.15s;
+}
+
+.faq-q:hover { background: var(--mdb-dim2); }
+.faq-arrow { font-family: var(--mono); font-size: 11px; color: var(--text-dim); transition: transform 0.2s; flex-shrink: 0; }
+.faq-item.open .faq-arrow { transform: rotate(180deg); }
+
+.faq-a {
+  display: none;
+  padding: 0 18px 14px;
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.75;
+  border-top: 1px solid var(--border2);
+  background: var(--bg);
+}
+
+.faq-item.open .faq-a { display: block; }
+.faq-a code { color: var(--mdb); background: var(--mdb-dim2); }
+
+.subtools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.stl {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--r);
+  padding: 12px 14px;
+  text-decoration: none;
+  display: block;
+  transition: border-color 0.15s;
+}
+
+.stl:hover { border-color: rgba(96,165,250,0.3); }
+.stl-eye  { font-family: var(--mono); font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 4px; }
+.stl-name { font-family: var(--mono); font-size: 12px; color: var(--mdb); font-weight: 500; }
+
+.tag-cloud { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 50px; }
+.tag {
+  font-family: var(--mono); font-size: 10px; color: var(--text-muted);
+  background: var(--surface); border: 1px solid var(--border2);
+  border-radius: 100px; padding: 4px 12px; cursor: default;
+}
+.tag:hover { color: var(--mdb); border-color: rgba(96,165,250,0.3); }
+
+footer { border-top: 1px solid var(--border2); padding: 20px 0; position: relative; z-index: 1; }
+.footer-inner {
+  max-width: 1060px; margin: 0 auto; padding: 0 24px;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 8px;
+}
+footer p { font-family: var(--mono); font-size: 11px; color: var(--text-dim); margin: 0; }
+
+@media (max-width: 640px) {
+  .field-grid { grid-template-columns: 1fr 1fr; }
+  .rec-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"MariaDB Performance Tuning Configuration Analyzer","applicationCategory":"DeveloperApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free MariaDB performance tuning tool. Enter server RAM, workload type, and connection count to get optimized my.cnf configuration values: innodb_buffer_pool_size, max_connections, query_cache_size, key_buffer_size, and more."}
+</script>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What are the best MariaDB performance monitoring and tuning tools?","acceptedAnswer":{"@type":"Answer","text":"Best MariaDB performance monitoring and tuning tools 2025: (1) Percona Monitoring and Management (PMM) — free, open source, best overall MariaDB monitoring with query analytics. (2) MySQLTuner — free Perl script, runs in 30 seconds, gives immediate configuration recommendations. (3) MariaDB Performance Schema — built-in, no install required. (4) SolarWinds Database Performance Analyzer — paid, excellent for enterprise. (5) Releem — AI-powered automatic MariaDB configuration tuning. (6) Netdata — lightweight real-time monitoring with MariaDB plugin. Use this tool to generate optimized my.cnf settings for your server."}},{"@type":"Question","name":"What is the most important MariaDB performance tuning parameter?","acceptedAnswer":{"@type":"Answer","text":"innodb_buffer_pool_size is the single most impactful MariaDB performance parameter. It controls how much RAM InnoDB uses for caching data and indexes. Best practice: set it to 70-80% of available RAM for a dedicated database server. Default is 128MB which is severely undersized for production. If your server has 16GB RAM, set innodb_buffer_pool_size = 12G. Second most important: innodb_log_file_size (set to 256M-1G for write-heavy workloads) and max_connections (default 151 is often too low for web apps)."}}]}
+</script>
+
 </head>
 
 <body>
-  <div class="container">
+<header>
+  <div class="header-inner">
+    <span class="logo-pill">MariaDB</span>
+    <span class="logo-text"><strong>performance</strong>-tuning &middot; monitoring &middot; tools 2025</span>
+  </div>
+</header>
 
-    <h1>MariaDB Tools</h1>
+<div class="wrapper">
 
-    <p>
-      Optimize your database performance with <strong>MariaDB tools</strong> designed for
-      <em>query analysis, indexing, benchmarking, configuration tuning, and replication monitoring</em>.
-      Improve speed, scalability, and efficiency in production environments.
+  <section class="hero">
+    <p class="hero-eyebrow">// MariaDB Performance 2025</p>
+    <h1><em>MariaDB Performance</em> Tuning Tools —<br>Configuration Analyzer &amp; Comparison</h1>
+    <p class="hero-sub">
+      Free <strong>my.cnf configuration analyzer</strong>: enter your server specs to get optimized InnoDB, connection, and cache settings. Plus a comparison of the best MariaDB monitoring and tuning tools.
     </p>
-
-    <h2>Query Optimization & Analysis</h2>
-
-    <div class="tool">
-      <a href="query/">
-        <strong>Query Analyzer</strong>
-      </a>
-      <p>Analyze SQL queries, detect inefficiencies, and improve execution plans.</p>
+    <div class="pill-row">
+      <span class="pill pill-m">Config Analyzer</span>
+      <span class="pill pill-m">InnoDB Tuning</span>
+      <span class="pill pill-dim">Percona PMM</span>
+      <span class="pill pill-dim">MySQLTuner</span>
+      <span class="pill pill-dim">my.cnf Generator</span>
     </div>
+  </section>
 
-    <div class="tool">
-      <a href="optimizer/">
-        <strong>Query Optimizer Tool</strong>
-      </a>
-      <p>Get suggestions to optimize complex queries and reduce execution time.</p>
+  <!-- CONFIG TUNER -->
+
+  <div class="tool-shell">
+    <div class="tool-topbar">
+      <span class="topbar-label">// MariaDB Configuration Tuner</span>
+      <div style="display:flex;gap:8px;">
+        <button class="btn-sm btn-mdb" id="sampleBtn">Load Example</button>
+        <button class="btn-sm btn-ghost" id="clearBtn">Reset</button>
+      </div>
     </div>
+    <div class="calc-body">
+      <div class="field-grid">
+        <div class="field">
+          <label class="field-label">Server RAM (GB)</label>
+          <input class="mdb-input" type="number" id="ramGb" value="16" min="1" max="2048">
+          <span class="field-hint">Total RAM, not just for MariaDB</span>
+        </div>
+        <div class="field">
+          <label class="field-label">Workload type</label>
+          <select class="mdb-select" id="workloadType">
+            <option value="web">Web app (read-heavy)</option>
+            <option value="mixed">Mixed read/write</option>
+            <option value="write">Write-heavy / OLTP</option>
+            <option value="analytics">Analytics / reporting</option>
+            <option value="dedicated">Dedicated DB server</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label">Max concurrent connections</label>
+          <input class="mdb-input" type="number" id="maxConn" value="200" min="10" max="10000">
+          <span class="field-hint">Expected peak connections</span>
+        </div>
+        <div class="field">
+          <label class="field-label">InnoDB tables?</label>
+          <select class="mdb-select" id="innodbYes">
+            <option value="yes">Yes (default/recommended)</option>
+            <option value="no">No (MyISAM only)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label">SSD storage?</label>
+          <select class="mdb-select" id="ssdYes">
+            <option value="yes">Yes (SSD / NVMe)</option>
+            <option value="no">No (HDD)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label">MariaDB version</label>
+          <select class="mdb-select" id="mdbVer">
+            <option value="10.11">10.11 LTS</option>
+            <option value="11.4">11.4 LTS</option>
+            <option value="10.6">10.6 LTS</option>
+            <option value="10.5">10.5</option>
+          </select>
+        </div>
+      </div>
 
-    <h2>Indexing & Performance</h2>
+  <div class="field" style="margin-bottom:14px;">
+    <label class="field-label">Paste existing my.cnf [mysqld] section (optional — for analysis)</label>
+    <textarea class="cfg-textarea" id="cfgInput" placeholder="[mysqld]&#10;innodb_buffer_pool_size = 128M&#10;max_connections = 151&#10;# paste your current config here..."></textarea>
+  </div>
 
-    <div class="tool">
-      <a href="index/">
-        <strong>Index Analyzer</strong>
-      </a>
-      <p>Evaluate index usage and optimize database indexing strategies.</p>
-    </div>
+  <button class="btn-tune" id="tuneBtn">Generate Optimized Configuration</button>
 
-    <div class="tool">
-      <a href="benchmark/">
-        <strong>Benchmark Tool</strong>
-      </a>
-      <p>Test database performance under different workloads and scenarios.</p>
-    </div>
+  <div class="result-section" id="resultSection">
+    <div class="res-head">Key parameter recommendations</div>
+    <div class="rec-grid" id="recGrid"></div>
 
-    <h2>Configuration & Tuning</h2>
+    <div class="res-head" style="margin-top:8px;">Optimized my.cnf [mysqld] section</div>
+    <div class="cnf-output" id="cnfOutput"></div>
+    <button class="copy-btn" id="copyCfgBtn">Copy my.cnf</button>
+    <span id="copyFb" style="font-family:var(--mono);font-size:11px;color:var(--green);display:none;margin-left:8px;">Copied!</span>
 
-    <div class="tool">
-      <a href="config/">
-        <strong>Configuration Optimizer</strong>
-      </a>
-      <p>Tune MariaDB configuration parameters for better performance.</p>
-    </div>
-
-    <h2>Replication & Scaling</h2>
-
-    <div class="tool">
-      <a href="replication/">
-        <strong>Replication Analyzer</strong>
-      </a>
-      <p>Monitor replication lag and improve data synchronization.</p>
-    </div>
-
-    <hr>
-
-    <p>
-      Designed for <strong>developers, database administrators, and backend engineers</strong>
-      working with MariaDB in high-performance environments.
-    </p>
+    <div id="cfgIssues" style="display:none;"></div>
+  </div>
+</div>
 
   </div>
+
+  <hr class="divider">
+
+  <!-- TOOLS COMPARISON TABLE -->
+
+  <section class="content-section">
+    <div class="sec-head">
+      <span class="sec-label">MariaDB monitoring &amp; tuning tools comparison 2025</span>
+      <span class="sec-rule"></span>
+    </div>
+    <table class="tools-table">
+      <thead>
+        <tr>
+          <th>Tool</th>
+          <th>Type</th>
+          <th>Best for</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-tool">Percona PMM</td>
+          <td><span class="badge bb-free">Free / OSS</span></td>
+          <td style="font-family:var(--mono);font-size:10px;">Full monitoring</td>
+          <td>Best overall MariaDB monitoring. Query Analytics, dashboards, alerting. Self-hosted or PMM Cloud. Docker deploy in minutes.</td>
+        </tr>
+        <tr>
+          <td class="td-tool">MySQLTuner</td>
+          <td><span class="badge bb-free">Free / Perl</span></td>
+          <td style="font-family:var(--mono);font-size:10px;">Quick tuning audit</td>
+          <td>Runs in 30 seconds: perl mysqltuner.pl. Gives immediate config recommendations based on current runtime stats. Must run after 24h+ of traffic.</td>
+        </tr>
+        <tr>
+          <td class="td-tool">MariaDB Performance Schema</td>
+          <td><span class="badge bb-oss">Built-in</span></td>
+          <td style="font-family:var(--mono);font-size:10px;">Query analysis</td>
+          <td>Built into MariaDB. Enable with performance_schema=ON. Tables: events_statements_summary_by_digest for slow query analysis.</td>
+        </tr>
+        <tr>
+          <td class="td-tool">Slow Query Log</td>
+          <td><span class="badge bb-oss">Built-in</span></td>
+          <td style="font-family:var(--mono);font-size:10px;">Slow queries</td>
+          <td>Enable: slow_query_log=1, long_query_time=1. Use mysqldumpslow or pt-query-digest (Percona Toolkit) to analyze.</td>
+        </tr>
+        <tr>
+          <td class="td-tool">Releem</td>
+          <td><span class="badge bb-paid">Paid (free tier)</span></td>
+          <td style="font-family:var(--mono);font-size:10px;">Auto-tuning</td>
+          <td>AI-powered. Analyzes real workload and applies config changes automatically. Free for 1 server. Best for teams without a DBA.</td>
+        </tr>
+        <tr>
+          <td class="td-tool">SolarWinds DPA</td>
+          <td><span class="badge bb-paid">Paid</span></td>
+          <td style="font-family:var(--mono);font-size:10px;">Enterprise</td>
+          <td>Database Performance Analyzer. Excellent wait-time analysis and query tuning. Best enterprise option. 14-day trial.</td>
+        </tr>
+        <tr>
+          <td class="td-tool">Netdata</td>
+          <td><span class="badge bb-free">Free / OSS</span></td>
+          <td style="font-family:var(--mono);font-size:10px;">Real-time metrics</td>
+          <td>Lightweight real-time monitoring with built-in MariaDB plugin. 1-second granularity. Zero config once MariaDB plugin is enabled.</td>
+        </tr>
+        <tr>
+          <td class="td-tool">Prometheus + mysqld_exporter</td>
+          <td><span class="badge bb-free">Free / OSS</span></td>
+          <td style="font-family:var(--mono);font-size:10px;">Grafana dashboards</td>
+          <td>Industry standard for metrics-based monitoring. mysqld_exporter exposes MariaDB metrics to Prometheus. Grafana for dashboards.</td>
+        </tr>
+        <tr>
+          <td class="td-tool">This tool</td>
+          <td><span class="badge bb-free">Free</span></td>
+          <td style="font-family:var(--mono);font-size:10px;">Config tuning</td>
+          <td>Generate optimized my.cnf based on server specs and workload. No agent, no install — online configuration advisor.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- GUIDE -->
+
+  <section class="content-section">
+    <div class="sec-head">
+      <span class="sec-label">Key MariaDB tuning parameters</span>
+      <span class="sec-rule"></span>
+    </div>
+    <div class="dense-block">
+      <p><strong>innodb_buffer_pool_size — the most impactful parameter</strong><br>
+      Controls how much RAM InnoDB uses for caching data and index pages. Default is 128MB — severely undersized for production. <strong>Set to 70-80% of available RAM</strong> on a dedicated database server. For a 16GB server: <code>innodb_buffer_pool_size = 12G</code>. For a shared server (with app): 40-50% of RAM. This single change is responsible for the largest performance improvements in most MariaDB installations. Check current hit rate: <code>SHOW STATUS LIKE 'Innodb_buffer_pool_read%';</code></p>
+      <p><strong>max_connections — avoid the "Too many connections" error</strong><br>
+      Default is 151. Most web applications need 200-500. Each connection uses ~1MB RAM. Formula: set max_connections × 1MB must fit in available RAM after buffer pool. For high-traffic apps: use connection pooling (ProxySQL, MaxScale) instead of raising max_connections — pooling 1000 app connections into 100 DB connections is far more efficient. <strong>Always set max_connections to 20% more than your expected peak.</strong></p>
+      <p><strong>innodb_log_file_size — critical for write-heavy workloads</strong><br>
+      Default is 96MB. For write-heavy applications, this is too small — causes frequent log flushes and write stalls. Set to 256MB-1GB for mixed workloads, 1-2GB for heavy OLTP. After changing: stop MariaDB, delete old ib_logfile0 and ib_logfile1, restart. Check write throughput with: <code>SHOW ENGINE INNODB STATUS\G</code> and look for "Log sequence number" growth rate.</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+
+  <section class="content-section">
+    <div class="sec-head">
+      <span class="sec-label">FAQ — MariaDB performance tuning tools</span>
+      <span class="sec-rule"></span>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">What are the best MariaDB performance monitoring and tuning tools?<span class="faq-arrow">&#9660;</span></button>
+        <div class="faq-a"><strong>Free tools:</strong> Percona PMM (best full monitoring), MySQLTuner (quick config audit), MariaDB Performance Schema (built-in query analysis), Slow Query Log (built-in), Netdata (real-time), Prometheus + mysqld_exporter (Grafana dashboards). <strong>Paid:</strong> SolarWinds DPA (enterprise), Releem (AI auto-tuning, free for 1 server). <strong>Start with:</strong> MySQLTuner for a quick audit, then Percona PMM for ongoing monitoring.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">What is the most important MariaDB performance parameter?<span class="faq-arrow">&#9660;</span></button>
+        <div class="faq-a"><code>innodb_buffer_pool_size</code> is the single most impactful setting. Default 128MB is severely undersized — set to 70-80% of RAM on a dedicated server. For a 16GB server: 12G. Second most important: <code>innodb_log_file_size</code> (256M-1G for write workloads), <code>max_connections</code> (set to peak + 20%), and <code>innodb_io_capacity</code> (set to 200 for HDD, 2000 for SSD). Use the tuner above to calculate all values for your server.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">How do I find slow queries in MariaDB?<span class="faq-arrow">&#9660;</span></button>
+        <div class="faq-a">Three methods: (1) <strong>Slow Query Log</strong> — add to my.cnf: <code>slow_query_log=1</code>, <code>slow_query_log_file=/var/log/mysql/slow.log</code>, <code>long_query_time=1</code>. Analyze with: <code>mysqldumpslow -s t /var/log/mysql/slow.log</code>. (2) <strong>Performance Schema</strong> — query: <code>SELECT * FROM performance_schema.events_statements_summary_by_digest ORDER BY SUM_TIMER_WAIT DESC LIMIT 10;</code>. (3) <strong>Percona PMM</strong> — Query Analytics shows top slow queries with EXPLAIN automatically.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">What is MySQLTuner and how do I use it for MariaDB?<span class="faq-arrow">&#9660;</span></button>
+        <div class="faq-a">MySQLTuner is a Perl script that analyzes your running MariaDB instance and gives configuration recommendations. Install: <code>wget http://mysqltuner.pl/ -O mysqltuner.pl</code>. Run: <code>perl mysqltuner.pl --user root --pass yourpassword</code>. Important: run after at least 24 hours of production traffic — recommendations based on startup stats are inaccurate. It will show buffer pool hit rate, key buffer usage, connection utilization, and specific my.cnf changes to make.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="sec-head">
+      <span class="sec-label">MariaDB tools</span>
+      <span class="sec-rule"></span>
+    </div>
+    <div class="subtools-grid">
+      <a href="query/" class="stl"><p class="stl-eye">query //</p><span class="stl-name">Query Analyzer</span></a>
+      <a href="index/" class="stl"><p class="stl-eye">index //</p><span class="stl-name">Index Analyzer</span></a>
+      <a href="config/" class="stl"><p class="stl-eye">config //</p><span class="stl-name">Configuration Optimizer</span></a>
+      <a href="benchmark/" class="stl"><p class="stl-eye">bench //</p><span class="stl-name">Benchmark Tool</span></a>
+      <a href="replication/" class="stl"><p class="stl-eye">replica //</p><span class="stl-name">Replication Analyzer</span></a>
+    </div>
+  </section>
+
+  <div class="tag-cloud">
+    <span class="tag">mariadb performance monitoring and tuning tools comparison</span>
+    <span class="tag">mariadb performance tuning tool</span>
+    <span class="tag">mariadb analysis tool</span>
+    <span class="tag">mariadb monitoring tools</span>
+    <span class="tag">mariadb my.cnf optimizer</span>
+    <span class="tag">innodb buffer pool size calculator</span>
+    <span class="tag">percona pmm mariadb</span>
+    <span class="tag">mysqltuner mariadb</span>
+    <span class="tag">mariadb slow query log</span>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <p>mariadb-performance-tuning-tools &middot; config analyzer &middot; 2025</p>
+    <p>innodb &middot; my.cnf &middot; percona pmm &middot; mysqltuner &middot; github pages</p>
+  </div>
+</footer>
+
+<script>
+function el(tag, cls) {
+  var e = document.createElement(tag);
+  if (cls) e.className = cls;
+  return e;
+}
+
+function fmtBytes(gb) {
+  if (gb >= 1) return gb + 'G';
+  return Math.round(gb * 1024) + 'M';
+}
+
+function calcTuning() {
+  var ram      = parseFloat(document.getElementById('ramGb').value) || 16;
+  var workload = document.getElementById('workloadType').value;
+  var maxConn  = parseInt(document.getElementById('maxConn').value) || 200;
+  var innodb   = document.getElementById('innodbYes').value === 'yes';
+  var ssd      = document.getElementById('ssdYes').value === 'yes';
+
+  // Buffer pool: 70-80% dedicated, 50% mixed
+  var bpPct = workload === 'dedicated' ? 0.78 : workload === 'analytics' ? 0.70 : 0.60;
+  var bufPool = Math.max(0.25, Math.floor(ram * bpPct * 10) / 10);
+
+  // Log file size
+  var logSize = workload === 'write' ? Math.min(2, Math.max(0.5, ram * 0.06)) :
+                workload === 'analytics' ? 1 : Math.max(0.25, Math.min(1, ram * 0.04));
+  var logSizeStr = logSize >= 1 ? Math.round(logSize) + 'G' : Math.round(logSize * 1024) + 'M';
+
+  // Key buffer (MyISAM)
+  var keyBuf = innodb ? Math.max(0.016, Math.min(0.25, ram * 0.01)) : Math.max(0.25, ram * 0.25);
+  var keyBufStr = keyBuf >= 1 ? Math.floor(keyBuf) + 'G' : Math.round(keyBuf * 1024) + 'M';
+
+  // Connections
+  var connections = Math.min(maxConn + 50, Math.floor((ram - bufPool) * 512));
+
+  // tmp table size
+  var tmpSize = Math.min(0.25, Math.max(0.064, ram * 0.02));
+  var tmpStr = Math.round(tmpSize * 1024) + 'M';
+
+  // InnoDB IO capacity
+  var ioCapacity = ssd ? 2000 : 200;
+  var ioMax = ssd ? 4000 : 400;
+
+  // Thread cache
+  var threadCache = Math.min(100, Math.max(8, Math.floor(connections / 4)));
+
+  // Sort buffer (per-connection — keep small)
+  var sortBuf = '4M';
+  var joinBuf = '4M';
+
+  var recs = [
+    { param: 'innodb_buffer_pool_size', val: fmtBytes(bufPool), why: 'Set to ~' + Math.round(bpPct * 100) + '% of ' + ram + 'GB RAM. Most critical InnoDB parameter.', badge: 'b-perf' },
+    { param: 'innodb_log_file_size', val: logSizeStr, why: 'Larger log = fewer flushes for write-heavy workloads.', badge: 'b-perf' },
+    { param: 'max_connections', val: String(connections), why: 'Peak ' + maxConn + ' + 20% headroom. Each uses ~1MB RAM.', badge: 'b-safe' },
+    { param: 'key_buffer_size', val: keyBufStr, why: innodb ? 'Small — you use InnoDB (buffer pool handles caching).' : 'Large — MyISAM relies on key buffer.', badge: innodb ? 'b-safe' : 'b-perf' },
+    { param: 'innodb_io_capacity', val: String(ioCapacity), why: ssd ? 'Set high for SSD — allows more IOPS from InnoDB.' : 'Conservative for HDD — prevents I/O saturation.', badge: 'b-perf' },
+    { param: 'tmp_table_size / max_heap_table_size', val: tmpStr, why: 'In-memory temp tables before spilling to disk.', badge: 'b-safe' }
+  ];
+
+  var grid = document.getElementById('recGrid');
+  grid.innerHTML = '';
+  recs.forEach(function(r) {
+    var card = el('div', 'rec-card');
+    var param = Object.assign(el('div', 'rc-param'), { textContent: r.param });
+    var val   = Object.assign(el('div', 'rc-val'), { textContent: r.val });
+    var badge = Object.assign(el('span', 'badge ' + r.badge), { textContent: r.badge === 'b-perf' ? 'PERFORMANCE' : 'STABILITY' });
+    var why   = Object.assign(el('div', 'rc-why'), { textContent: r.why });
+    card.appendChild(param); card.appendChild(val); card.appendChild(badge); card.appendChild(why);
+    grid.appendChild(card);
+  });
+
+  // Generate my.cnf
+  var bpInstances = bufPool >= 4 ? Math.min(8, Math.floor(bufPool / 1)) : 1;
+  var lines = [
+    '[mysqld]',
+    '',
+    '# ── InnoDB Buffer Pool ──────────────────────',
+    'innodb_buffer_pool_size         = ' + fmtBytes(bufPool),
+    'innodb_buffer_pool_instances    = ' + bpInstances,
+    '',
+    '# ── InnoDB Logging ──────────────────────────',
+    'innodb_log_file_size            = ' + logSizeStr,
+    'innodb_log_buffer_size          = 64M',
+    'innodb_flush_log_at_trx_commit  = ' + (workload === 'write' ? '2' : '1'),
+    '',
+    '# ── InnoDB I/O ──────────────────────────────',
+    'innodb_io_capacity              = ' + ioCapacity,
+    'innodb_io_capacity_max          = ' + ioMax,
+    'innodb_read_io_threads          = ' + (ssd ? '8' : '4'),
+    'innodb_write_io_threads         = ' + (ssd ? '8' : '4'),
+    '',
+    '# ── Connections ─────────────────────────────',
+    'max_connections                 = ' + connections,
+    'max_allowed_packet              = 64M',
+    'wait_timeout                    = 600',
+    'interactive_timeout             = 600',
+    'thread_cache_size               = ' + threadCache,
+    '',
+    '# ── Query Cache (disabled in MariaDB 10.3+) ─',
+    'query_cache_type                = 0',
+    'query_cache_size                = 0',
+    '',
+    '# ── Temp Tables ─────────────────────────────',
+    'tmp_table_size                  = ' + tmpStr,
+    'max_heap_table_size             = ' + tmpStr,
+    '',
+    '# ── Sort & Join Buffers (per-connection) ────',
+    'sort_buffer_size                = ' + sortBuf,
+    'join_buffer_size                = ' + joinBuf,
+    'read_rnd_buffer_size            = 4M',
+    '',
+    '# ── MyISAM ──────────────────────────────────',
+    'key_buffer_size                 = ' + keyBufStr,
+    'myisam_sort_buffer_size         = 256M',
+    '',
+    '# ── Slow Query Log ──────────────────────────',
+    'slow_query_log                  = 1',
+    'slow_query_log_file             = /var/log/mysql/slow.log',
+    'long_query_time                 = 1',
+    'log_queries_not_using_indexes   = 1',
+    '',
+    '# ── Performance Schema ──────────────────────',
+    'performance_schema              = ON',
+    '',
+    '# ── Character Set ───────────────────────────',
+    'character_set_server            = utf8mb4',
+    'collation_server                = utf8mb4_unicode_ci'
+  ];
+
+  document.getElementById('cnfOutput').textContent = lines.join('\n');
+
+  // Check existing config for issues
+  var raw = document.getElementById('cfgInput').value;
+  var issues = [];
+  if (raw) {
+    var bpMatch = raw.match(/innodb_buffer_pool_size\s*=\s*(\d+)([MG]?)/i);
+    if (bpMatch) {
+      var bpVal = parseInt(bpMatch[1]);
+      var unit  = bpMatch[2].toUpperCase();
+      var bpMb  = unit === 'G' ? bpVal * 1024 : bpVal;
+      if (bpMb < 512) {
+        issues.push({ level: 'critical', msg: 'innodb_buffer_pool_size = ' + bpMatch[1] + (bpMatch[2] || 'M') + ' is very small. Recommended: ' + fmtBytes(bufPool) });
+      }
+    } else {
+      issues.push({ level: 'warn', msg: 'innodb_buffer_pool_size not set — defaults to 128M. Set to ' + fmtBytes(bufPool) + ' for your server.' });
+    }
+    if (/query_cache_type\s*=\s*[1-9]/i.test(raw)) {
+      issues.push({ level: 'warn', msg: 'query_cache_type is enabled. Disable in MariaDB 10.3+ — it causes mutex contention at scale.' });
+    }
+    if (raw.indexOf('innodb_log_file_size') === -1) {
+      issues.push({ level: 'warn', msg: 'innodb_log_file_size not set — defaults to 96M. Set to ' + logSizeStr + ' for better write performance.' });
+    }
+  }
+
+  var issuesDiv = document.getElementById('cfgIssues');
+  if (issues.length > 0) {
+    issuesDiv.innerHTML = '';
+    var head = Object.assign(el('div', 'res-head'), { textContent: 'Issues found in your current config' });
+    head.style.marginTop = '12px';
+    issuesDiv.appendChild(head);
+    issues.forEach(function(issue) {
+      var box = el('div');
+      box.style.cssText = 'background:var(--bg);border:1px solid var(--border2);border-left:3px solid ' +
+        (issue.level === 'critical' ? 'var(--red)' : 'var(--yellow)') +
+        ';border-radius:0 4px 4px 0;padding:8px 12px;font-family:var(--mono);font-size:11px;color:' +
+        (issue.level === 'critical' ? 'var(--red)' : 'var(--yellow)') +
+        ';margin-bottom:6px;';
+      box.textContent = (issue.level === 'critical' ? 'CRITICAL: ' : 'WARNING: ') + issue.msg;
+      issuesDiv.appendChild(box);
+    });
+    issuesDiv.style.display = 'block';
+  } else {
+    issuesDiv.style.display = 'none';
+  }
+
+  document.getElementById('resultSection').classList.add('show');
+}
+
+function loadExample() {
+  document.getElementById('ramGb').value = '32';
+  document.getElementById('workloadType').value = 'web';
+  document.getElementById('maxConn').value = '300';
+  document.getElementById('innodbYes').value = 'yes';
+  document.getElementById('ssdYes').value = 'yes';
+  document.getElementById('cfgInput').value = '[mysqld]\ninnodb_buffer_pool_size = 128M\nmax_connections = 151\nquery_cache_type = 1\nquery_cache_size = 64M';
+  calcTuning();
+}
+
+function copyCnf() {
+  var text = document.getElementById('cnfOutput').textContent;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(function() {
+      var fb = document.getElementById('copyFb');
+      fb.style.display = 'inline';
+      setTimeout(function() { fb.style.display = 'none'; }, 2000);
+    });
+  }
+}
+
+function toggleFaq(btn) {
+  btn.parentElement.classList.toggle('open');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('tuneBtn').addEventListener('click', calcTuning);
+  document.getElementById('sampleBtn').addEventListener('click', loadExample);
+  document.getElementById('copyCfgBtn').addEventListener('click', copyCnf);
+  document.getElementById('clearBtn').addEventListener('click', function() {
+    document.getElementById('resultSection').classList.remove('show');
+    document.getElementById('cfgInput').value = '';
+  });
+});
+</script>
+
 </body>
 </html>
